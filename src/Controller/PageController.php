@@ -95,7 +95,13 @@ final class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/{brandSlug}/', name: 'brand')]
+    #[Route(
+        '/{brandSlug}/',
+        name: 'brand',
+        requirements: [
+            'brandSlug' => '(?!(?:login|logout|admin)/)[a-zA-Z0-9-]+'
+        ]
+    )]
     public function brand(
         string $brandSlug,
         BrandRepository $brandRepo,
