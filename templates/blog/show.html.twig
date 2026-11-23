@@ -1,0 +1,66 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ post.metaTitle ?: post.title }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="{{ post.metaDescription ?: post.excerpt ?: post.title }}">
+{% endblock %}
+
+{% block header %}
+    {{ include('elements/header/header.html.twig') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/blog.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="blog-page">
+        <div class="container">
+
+            <article class="blog-article">
+
+                <a href="{{ path('blog_index') }}" class="blog-back">
+                    ← Все статьи
+                </a>
+
+                <header class="blog-article-header">
+                    {% if post.publishedAt %}
+                        <time class="blog-date">
+                            {{ post.publishedAt|date('d.m.Y') }}
+                        </time>
+                    {% endif %}
+
+                    <h1>{{ post.title }}</h1>
+                </header>
+
+                {% if post.image %}
+                    <div class="blog-article-cover">
+                        <img
+                                src="{{ asset('uploads/blog/' ~ post.image) }}"
+                                alt="{{ post.title }}"
+                        >
+                    </div>
+                {% endif %}
+
+                <div class="blog-article-content">
+                    {{ post.content|raw }}
+                </div>
+
+                <a href="{{ path('blog_index') }}" class="blog-back-bottom">
+                    ← Вернуться к блогу
+                </a>
+
+            </article>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    {{ include('elements/footer/footer.html.twig') }}
+{% endblock %}

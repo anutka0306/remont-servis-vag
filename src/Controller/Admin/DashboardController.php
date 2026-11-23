@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\BlogPost;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -19,6 +20,7 @@ use App\Entity\Promotion;
 use App\Controller\Admin\PromotionCrudController;
 use App\Entity\User;
 use App\Controller\Admin\UserCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -70,7 +72,19 @@ class DashboardController extends AbstractDashboardController
             ->setController(PromotionCrudController::class);
         yield MenuItem::linkToCrud('Пользователи', 'fa fa-user', User::class)
             ->setController(UserCrudController::class);
+        yield MenuItem::linkToCrud('Блог', 'fa fa-newspaper', BlogPost::class)
+            ->setController(BlogPostCrudController::class);
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            ->addCssFile('vendor/quill/quill.snow.css')
+            ->addCssFile('vendor/quill/resize.css')
+            ->addJsFile('vendor/quill/quill.js')
+            ->addJsFile('vendor/quill/resize.js')
+            ->addJsFile('js/admin-quill.js');
     }
 }
