@@ -89,12 +89,16 @@ toolbar.addHandler('image', function () {
 
         quill.root.innerHTML = textarea.value;
 
+        const syncContent = function () {
+            textarea.value = quill.root.innerHTML;
+        };
+
+        quill.on('text-change', syncContent);
+
         const form = textarea.closest('form');
 
         if (form) {
-            form.addEventListener('submit', function () {
-                textarea.value = quill.root.innerHTML;
-            });
+            form.addEventListener('submit', syncContent, true);
         }
     });
 });
